@@ -25,6 +25,11 @@ class Comment
     private $createdAt;
 
     /**
+     * @var int
+     */
+    private $articleId;
+
+    /**
      * @return int
      */
     public function getId()
@@ -87,4 +92,22 @@ class Comment
     {
         $this->createdAt = $createdAt;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getArticleId()
+    {
+        return $this->articleId;
+    }
+
+    /**
+     * @param mixed $articleId
+     */
+    public function setArticleId($articleId)
+    {
+        $this->articleId = $articleId;
+    }
+
+
 }

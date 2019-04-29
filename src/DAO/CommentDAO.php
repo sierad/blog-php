@@ -14,6 +14,7 @@ class CommentDAO extends DAO
         $comment->setPseudo($row['pseudo']);
         $comment->setContent($row['content']);
         $comment->setCreatedAt($row['createdAt']);
+        $comment->setArticleId($row['article_id']);
         return $comment;
     }
 
@@ -43,7 +44,7 @@ class CommentDAO extends DAO
 
     public function getComment($commentId)
     {
-        $sql = "SELECT id, pseudo, content, createdAt FROM comment WHERE id = ?";
+        $sql = "SELECT id, pseudo, content, createdAt, article_id FROM comment WHERE id = ?";
         $result = $this->createQuery($sql, [$commentId]);
         $commente = $result ->fetch();
         $result->closeCursor();

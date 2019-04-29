@@ -39,7 +39,6 @@ class BackController extends Controller
         if($post->get('submit')){
             var_dump('soumis');
             $this->commentDAO->editComment($post);
-
         }
         return $this->view->render('edit_comment', [
             'comment' => $commente

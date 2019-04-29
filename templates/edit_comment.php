@@ -8,6 +8,7 @@
         <label for="content">Contenu</label><br>
         <textarea id="content" name="content"><?= $comment->getContent(); ?></textarea><br>
         <input type="hidden" value="<?= $comment->getId(); ?>" id="hidden" name="id">
+        <input type="hidden" value="<?= $comment->getArticleId(); ?>" id="hidden" name="articleId">
         <input type="submit" value="Envoyer" id="submit" name="submit">
     </form>
 </div>
