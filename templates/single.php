@@ -2,6 +2,8 @@
 <h1>Mon blog</h1>
 <p>En construction</p>
 <?= $this->session->show('add_comment'); ?>
+<?= $this->session->show('edit_comment'); ?>
+<?= $this->session->show('comment_delete'); ?>
 
 <div>
     <h2><?= htmlspecialchars($article->getTitle());?></h2>
@@ -27,11 +29,11 @@
     foreach ($comments as $comment)
     {
         ?>
-        <a href="../public/index.php?route=editComment&commentId=<?= $comment->getId(); ?>"> Modifier </a>
-        <a href="../public/index.php?route=deleteCommentSingle&commentId=<?= $comment->getId()?>"> Supprimer </a>
         <h4><?= htmlspecialchars($comment->getPseudo());?></h4>
         <p><?= htmlspecialchars($comment->getContent());?></p>
         <p>Posté le <?= htmlspecialchars($comment->getCreatedAt());?></p>
+        <a href="../public/index.php?route=editComment&commentId=<?= $comment->getId(); ?>"> Modifier </a><br>
+        <a href="../public/index.php?route=deleteCommentSingle&commentId=<?= $comment->getId()?>"> Supprimer </a>
         <?php
     }
     ?>

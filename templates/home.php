@@ -3,8 +3,28 @@
 <?= $this->session->show('add_article'); ?>
 <?= $this->session->show('article_not_found'); ?>
 <?= $this->session->show('article_delete'); ?>
+<?= $this->session->show('connexion'); ?>
+<?= $this->session->show('id'); ?>
+<?= $this->session->get('pseudo'); ?>
 
-<a href="../public/index.php?route=addArticle">Nouvel article</a>
+
+<?php
+    if(!$this->session->get('pseudo')){
+        ?>
+        <a href="../public/index.php?route=connexion">Connexion</a>
+        <a href="../public/index.php?route=inscription">Inscription</a>
+        <?php
+    }
+    else {
+        ?>
+        <a href="../public/index.php?route=deconnexion">Deconnexion</a>
+        <a href="../public/index.php?route=addArticle">Nouvel article</a>
+        <?php
+    }
+?>
+
+
+
 <?php
 foreach ($articles as $article)
 {

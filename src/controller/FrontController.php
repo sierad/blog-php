@@ -39,4 +39,29 @@ class FrontController extends Controller
             header('Location: ../public/index.php?route=article&articleId='. $post->get('articleId'));
         }
     }
+
+    public function inscription(Parameter $post){
+        if ($post->get('submit')){
+            $this->userDAO->inscription($post);
+            header('Location:../public/index.php?route=connexion');
+        }
+        return $this->view->render('inscription');
+    }
+
+    public function connexion(Parameter $post){
+        if ($post->get('submit')){
+            $values = $this->userDAO->connexion($post);
+            if (!$values['passOk']){
+                $this->session->set('bad_connexion', 'Mauvais identifiant ou mot de passe');
+            }
+            else {
+                $this->session->set('id', $values['resultat']['id']);
+                $this->session->set('pseudo', $values['resultat']['pseudo']);
+                $this->session->set('connexion', 'Vous etes bien connecté');
+                header('Location:../public/index.php');
+            }
+        }
+        return $this->view->render('connexion');
+    }
+
 }

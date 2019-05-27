@@ -35,10 +35,11 @@ class BackController extends Controller
     public function editComment(Parameter $post, $id)
     {
         $commente=$this->commentDAO->getComment($id);
-        var_dump($commente);
         if($post->get('submit')){
             var_dump('soumis');
             $this->commentDAO->editComment($post);
+            $this->session->set('edit_comment', 'Le commentaire a bien été modifié');
+            header('Location: ../public/index.php?route=article&articleId='.$commente->getArticleId());
         }
         return $this->view->render('edit_comment', [
             'comment' => $commente
@@ -61,11 +62,20 @@ class BackController extends Controller
     }
 
     public function deleteCommentSingle($id){
-        $commente=$this->commentDAO->getComment($id);
+        $commente = $this->commentDAO->getComment($id);
         if ($commente->getId()){
             $this->commentDAO->deleteCommentSingle($id);
             $this->session->set('comment_delete', 'Commentaire supprimé');
         }
-        header('Location: ../public/index.php');
+        header('Location: ../public/index.php?route=article&articleId='. $commente->getArticleId());
+    }
+
+    public function deconnexion(){
+        $this->session->stop();
+        header('Location:../public/index.php');
+    }
+
+    public function deleteAccount(){
+        $this->userDAO->
     }
 }

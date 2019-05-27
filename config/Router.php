@@ -51,6 +51,18 @@ class Router
                 elseif($route === 'addComment'){
                     $this->frontController->addComment($this->request->getPost());
                 }
+                elseif($route ==='inscription'){
+                    $this->frontController->inscription($this->request->getPost());
+                }
+                elseif($route === 'connexion'){
+                    $this->frontController->connexion($this->request->getPost());
+                }
+                elseif($route === 'deconnexion'){
+                    $this->backController->deconnexion();
+                }
+                elseif ($route === 'deleteAccount'){
+                    $this->backController->deleteAccount();
+                }
                 else{
                     $this->errorController->errorNotFound();
                 }
