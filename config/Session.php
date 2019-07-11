@@ -39,8 +39,18 @@ class Session
     }
 
     public function stop()
+{
+    session_destroy();
+}
+
+    public function start()
     {
-        session_destroy();
+        session_start();
+    }
+
+    public function reset(){
+        $this->stop();
+        $this->start();
     }
 
 }

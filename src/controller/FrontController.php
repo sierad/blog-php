@@ -34,16 +34,39 @@ class FrontController extends Controller
 
     public function addComment(Parameter $post){
         if($post->get('submit') ){
-            $this->commentDAO->addComment($post);
-            $this->session->set('add_comment', 'Le commentaire est bien ajouté');
-            header('Location: ../public/index.php?route=article&articleId='. $post->get('articleId'));
+            $errors=$this->validation->validate($post, 'Comment');
+            if(!$errors){
+                $this->commentDAO->addComment($post);
+                $this->session->set('add_comment', 'Le commentaire est bien ajouté');
+                header('Location: ../public/index.php?route=article&articleId='. $post->get('articleId'));
+            }
+            $article = $this->articleDAO->getArticle($post->get('articleId'));
+            $comments=$this->commentDAO->getCommentsFromArticle($post->get('articleId'));
+            return $this->view->render('single', [
+                'article'=>$article,
+                'comments'=>$comments,
+                'post'=>$post,
+                'errors'=>$errors
+            ]);
         }
+    }
+
+    public function flagComment($commentId)
+    {
+        $this->commentDAO->flagComment($commentId);
+        $this->session->set('flag_comment', 'Le commentaire a bien été signalé');
+        header('Location:../public/index.php');
     }
 
     public function inscription(Parameter $post){
         if ($post->get('submit')){
-            $this->userDAO->inscription($post);
-            header('Location:../public/index.php?route=connexion');
+            $values = $this->userDAO->connexion($post);
+            if (!$values['resultat']['pseudo']){
+                $this->userDAO->inscription($post);
+                header('Location:../public/index.php?route=connexion');
+            } else {
+                $this->session->set('badPass', 'Le pseudo existe deja ! ');
+            }
         }
         return $this->view->render('inscription');
     }

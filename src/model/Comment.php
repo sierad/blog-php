@@ -27,6 +27,9 @@ class Comment
     /**
      * @var int
      */
+    private $flag;
+
+
     private $articleId;
 
     /**
@@ -101,6 +104,15 @@ class Comment
         return $this->articleId;
     }
 
+    public function isFlag()
+    {
+        return $this->flag;
+    }
+
+    public function setFlag($flag)
+    {
+        $this->flag = $flag;
+    }
     /**
      * @param mixed $articleId
      */

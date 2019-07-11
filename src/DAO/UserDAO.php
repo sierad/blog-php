@@ -26,5 +26,18 @@ class UserDAO extends DAO
             'passOk'=>$passOk
         ];
     }
+   public function deleteAccount($ids){
+        $sql = 'DELETE FROM user WHERE pseudo = ?';
+        $this->createQuery($sql, [$ids]);
+    }
+
+    public  function editPassword(Parameter $post, $id){
+        $password = password_hash($post->get('password'), PASSWORD_DEFAULT);
+        var_dump($post, $id);
+        $sql = 'UPDATE user SET password = :password WHERE pseudo = :pseudo';
+        $this->createQuery($sql, [
+            'password' => $password,
+            'pseudo' => $post->get('pseudo')]);
+    }
 
 }

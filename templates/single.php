@@ -5,6 +5,7 @@
 <?= $this->session->show('edit_comment'); ?>
 <?= $this->session->show('comment_delete'); ?>
 
+
 <div>
     <h2><?= htmlspecialchars($article->getTitle());?></h2>
     <p><?= htmlspecialchars($article->getContent());?></p>
@@ -34,6 +35,18 @@
         <p>Posté le <?= htmlspecialchars($comment->getCreatedAt());?></p>
         <a href="../public/index.php?route=editComment&commentId=<?= $comment->getId(); ?>"> Modifier </a><br>
         <a href="../public/index.php?route=deleteCommentSingle&commentId=<?= $comment->getId()?>"> Supprimer </a>
+        <?php
+        if($comment->isFlag()) {
+            ?>
+            <p>Ce commentaire a déjà été signalé</p>
+            <?php
+        } else {
+            ?>
+            <p><a href="../public/index.php?route=flagComment&commentId=<?= $comment->getId(); ?>">Signaler le commentaire</a></p>
+            <?php
+        }
+        ?>
+        <br>
         <?php
     }
     ?>
