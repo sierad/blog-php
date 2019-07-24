@@ -3,7 +3,7 @@
 <p>En construction</p>
 <?= $this->session->show('add_comment'); ?>
 <?= $this->session->show('edit_comment'); ?>
-<?= $this->session->show('comment_delete'); ?>
+
 
 
 <div>

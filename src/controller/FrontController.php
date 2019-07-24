@@ -32,13 +32,15 @@ class FrontController extends Controller
         ]);
     }
 
-    public function addComment(Parameter $post){
+    public function addComment(Parameter $post, $articleId){
         if($post->get('submit') ){
+            var_dump($post);
+            var_dump($articleId);
             $errors=$this->validation->validate($post, 'Comment');
             if(!$errors){
-                $this->commentDAO->addComment($post);
+                $this->commentDAO->addComment($post, $articleId);
                 $this->session->set('add_comment', 'Le commentaire est bien ajouté');
-                header('Location: ../public/index.php?route=article&articleId='. $post->get('articleId'));
+                header('Location: ../public/index.php?route=article&articleId='. $articleId);
             }
             $article = $this->articleDAO->getArticle($post->get('articleId'));
             $comments=$this->commentDAO->getCommentsFromArticle($post->get('articleId'));
@@ -60,13 +62,20 @@ class FrontController extends Controller
 
     public function inscription(Parameter $post){
         if ($post->get('submit')){
-            $values = $this->userDAO->connexion($post);
-            if (!$values['resultat']['pseudo']){
-                $this->userDAO->inscription($post);
-                header('Location:../public/index.php?route=connexion');
-            } else {
-                $this->session->set('badPass', 'Le pseudo existe deja ! ');
+            $errors = $this->validation->validate($post,'User');
+            if(!$errors){
+                $values = $this->userDAO->connexion($post);
+                if (!$values['resultat']['pseudo']){
+                    $this->userDAO->inscription($post);
+                    header('Location:../public/index.php?route=connexion');
+                } else {
+                    $this->session->set('badPass', 'Le pseudo existe deja ! ');
+                }
             }
+            return $this->view->render('inscription',[
+                'post'=>$post,
+                'errors'=>$errors
+            ]);
         }
         return $this->view->render('inscription');
     }
@@ -78,8 +87,10 @@ class FrontController extends Controller
                 $this->session->set('bad_connexion', 'Mauvais identifiant ou mot de passe');
             }
             else {
+                var_dump($values);
                 $this->session->set('id', $values['resultat']['id']);
                 $this->session->set('pseudo', $values['resultat']['pseudo']);
+                $this->session->set('role', $values['resultat']['role_id']);
                 $this->session->set('connexion', 'Vous etes bien connecté');
                 header('Location:../public/index.php');
             }

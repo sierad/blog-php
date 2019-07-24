@@ -11,9 +11,9 @@ class BackController extends Controller
         if($post->get('submit')) {
             $errors = $this->validation->validate($post, 'Article');
             if(!$errors) {
-                $this->articleDAO->addArticle($post, $this->session);
+                $this->articleDAO->addArticle($post, $this->session->get('id'));
                 $this->session->set('add_article', 'Le nouvel article a bien été ajouté');
-                header('Location: ../public/index.php');
+                header('Location: ../public/index.php?route=administration');
             }
             return $this->view->render('add_article', [
                 'post' => $post,
@@ -30,9 +30,9 @@ class BackController extends Controller
         if($post->get('submit')) {
             $errors = $this->validation->validate($post, 'Article');
             if(!$errors) {
-                $this->articleDAO->editArticle($post, $articleId);
+                $this->articleDAO->editArticle($post, $articleId, $this->session->get('id'));
                 $this->session->set('edit_article', 'L\' article a bien été modifié');
-                header('Location: ../public/index.php');
+                header('Location: ../public/index.php?route=administration');
             }
             return $this->view->render('edit_article', [
                 'post' => $post,
@@ -53,15 +53,19 @@ class BackController extends Controller
 
     public function editComment(Parameter $post, $id)
     {
-        $commente=$this->commentDAO->getComment($id);
+        $comment=$this->commentDAO->getComment($id);
         if($post->get('submit')){
             var_dump('soumis');
-            $this->commentDAO->editComment($post);
+            $this->commentDAO->editComment($post, $id);
             $this->session->set('edit_comment', 'Le commentaire a bien été modifié');
-            header('Location: ../public/index.php?route=article&articleId='.$commente->getArticleId());
+            header('Location: ../public/index.php?route=article&articleId='.$comment->getArticleId());
         }
+        $post->set('id',$comment->getId());
+        $post->set('pseudo',$comment->getPseudo());
+        $post->set('content',$comment->getContent());
+        $post->set('articleId',$comment->getArticleId());
         return $this->view->render('edit_comment', [
-            'comment' => $commente
+            'post' => $post
         ]);
         //$this->session->set('comment_not_found', 'Pas trouvé');
         //header('Location: ../public/index.php');
@@ -77,7 +81,7 @@ class BackController extends Controller
         } else{
             $this->session->set('article_not_found', 'L\'article demandé n\'existe pas');
         }
-        header('Location: ../public/index.php');
+        header('Location: ../public/index.php?route=administration');
     }
 
     public function deleteCommentSingle($id){
@@ -86,7 +90,7 @@ class BackController extends Controller
             $this->commentDAO->deleteCommentSingle($id);
             $this->session->set('comment_delete', 'Commentaire supprimé');
         }
-        header('Location: ../public/index.php?route=article&articleId='. $commente->getArticleId());
+        header('Location: ../public/index.php?route=administration');
     }
 
     public function deconnexion($param = null){
@@ -115,4 +119,25 @@ class BackController extends Controller
         }
         return $this->view->render('edit_password');
     }
+
+    public function profile(){
+        return $this->view->render('profile');
+    }
+
+    public function administration()
+    {
+        $articles=$this->articleDAO->getArticles();
+        $comments=$this->commentDAO->getFlagComments();
+        return $this->view->render('administration',[
+            'articles' => $articles,
+            'comments'=>$comments
+        ]);
+    }
+
+    public function unflagComment($commentId){
+        $this->commentDAO->unflagComment($commentId);
+        $this->session->set('unflag_comment', 'Le commentaire a bien été désignalé.');
+        header('Location: ../public/index.php?route=administration');
+    }
+
 }

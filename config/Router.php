@@ -49,10 +49,13 @@ class Router
                     $this->backController->deleteCommentSingle($this->request->getGet()->get('commentId'));
                 }
                 elseif($route === 'addComment'){
-                    $this->frontController->addComment($this->request->getPost());
+                    $this->frontController->addComment($this->request->getPost(), $this->request->getGet()->get('articleId'));
                 }
                 elseif($route === 'flagComment'){
                     $this->frontController->flagComment($this->request->getGet()->get('commentId'));
+                }
+                elseif($route === 'unflagComment'){
+                    $this->backController->unflagComment($this->request->getGet()->get('commentId'));
                 }
                 elseif($route ==='inscription'){
                     $this->frontController->inscription($this->request->getPost());
@@ -68,6 +71,12 @@ class Router
                 }
                 elseif ($route === 'editPassword'){
                     $this->backController->editPassword($this->request->getPost(), $this->request->getSession('pseudo'));
+                }
+                elseif ($route==='profile'){
+                    $this->backController->profile();
+                }
+                elseif ($route === 'administration'){
+                    $this->backController->administration();
                 }
                 else{
                     $this->errorController->errorNotFound();

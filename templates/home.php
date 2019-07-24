@@ -1,8 +1,7 @@
+<?php var_dump($this->session);?>
 <h1>Mon blog</h1>
 <p>En construction</p>
-<?= $this->session->show('add_article'); ?>
 <?= $this->session->show('article_not_found'); ?>
-<?= $this->session->show('article_delete'); ?>
 <?= $this->session->show('connexion'); ?>
 <?= $this->session->get('id'); ?>
 <?= $this->session->get('pseudo'); ?>
@@ -22,8 +21,10 @@
     else {
         ?>
         <a href="../public/index.php?route=deconnexion">Deconnexion</a>
-        <a href="../public/index.php?route=editPassword">Modifier mot de passe</a>
-        <a href="../public/index.php?route=deleteAccount">Supprimer mon compte</a>
+        <a href="../public/index.php?route=profile">Profil</a>
+        <?php if($this->session->get('role')==1) { ?>
+            <a href="../public/index.php?route=administration">Administration</a>
+        <?php } ?>
         <a href="../public/index.php?route=addArticle">Nouvel article</a>
 
         <?php
