@@ -48,6 +48,9 @@ class Router
                 elseif($route === 'deleteCommentSingle'){
                     $this->backController->deleteCommentSingle($this->request->getGet()->get('commentId'));
                 }
+                elseif ($route === 'deleteUser'){
+                    $this->backController->deleteUser($this->request->getGet()->get('userId'));
+                }
                 elseif($route === 'addComment'){
                     $this->frontController->addComment($this->request->getPost(), $this->request->getGet()->get('articleId'));
                 }

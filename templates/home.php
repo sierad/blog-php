@@ -1,4 +1,3 @@
-<?php var_dump($this->session);?>
 <h1>Mon blog</h1>
 <p>En construction</p>
 <?= $this->session->show('article_not_found'); ?>

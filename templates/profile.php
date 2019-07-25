@@ -2,6 +2,8 @@
 <h1>Mon blog</h1>
 <p>En construction</p>
 <?= $this->session->show('update_password');?>
+<?= $this->session->show('not_admin');?>
+<?= $this->session->show('need_login');?>
 
 <div>
     <h2><?= $this->session->get('pseudo'); ?></h2>

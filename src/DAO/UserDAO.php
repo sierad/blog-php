@@ -54,6 +54,11 @@ class UserDAO extends DAO
         $this->createQuery($sql, [$ids]);
     }
 
+    public function deleteUser($userId){
+        $sql = 'DELETE FROM user WHERE id = ?';
+        $this->createQuery($sql, [$userId]);
+    }
+
     public  function editPassword(Parameter $post, $id){
         $password = password_hash($post->get('password'), PASSWORD_DEFAULT);
         var_dump($post, $id);

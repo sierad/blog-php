@@ -6,113 +6,148 @@ use App\config\Parameter;
 
 class BackController extends Controller
 {
+    private function checkLoggedIn()
+    {
+        if(!$this->session->get('pseudo')) {
+            $this->session->set('need_login', 'Vous devez vous connecter pour accéder à cette page');
+            header('Location: ../public/index.php?route=login');
+        } else {
+            return true;
+        }
+    }
+
+    private function checkAdmin()
+    {
+        $this->checkLoggedIn();
+        if(!($this->session->get('role') ==='admin')) {
+            $this->session->set('not_admin', 'Vous n\'avez pas le droit d\'accéder à cette page');
+            header('Location: ../public/index.php?route=profile');
+        } else {
+            return true;
+        }
+    }
+
     public function addArticle(Parameter $post)
     {
-        if($post->get('submit')) {
-            $errors = $this->validation->validate($post, 'Article');
-            if(!$errors) {
-                $this->articleDAO->addArticle($post, $this->session->get('id'));
-                $this->session->set('add_article', 'Le nouvel article a bien été ajouté');
-                header('Location: ../public/index.php?route=administration');
+        if($this->checkAdmin()){
+            if($post->get('submit')) {
+                $errors = $this->validation->validate($post, 'Article');
+                if(!$errors) {
+                    $this->articleDAO->addArticle($post, $this->session->get('id'));
+                    $this->session->set('add_article', 'Le nouvel article a bien été ajouté');
+                    header('Location: ../public/index.php?route=administration');
+                }
+                return $this->view->render('add_article', [
+                    'post' => $post,
+                    'errors' => $errors
+                ]);
             }
-            return $this->view->render('add_article', [
-                'post' => $post,
-                'errors' => $errors
-            ]);
+            return $this->view->render('add_article');
         }
-        return $this->view->render('add_article');
     }
 
 
     public function editArticle(Parameter $post, $articleId)
     {
-        $article = $this->articleDAO->getArticle($articleId);
-        if($post->get('submit')) {
-            $errors = $this->validation->validate($post, 'Article');
-            if(!$errors) {
-                $this->articleDAO->editArticle($post, $articleId, $this->session->get('id'));
-                $this->session->set('edit_article', 'L\' article a bien été modifié');
-                header('Location: ../public/index.php?route=administration');
+        if($this->checkAdmin()){
+            $article = $this->articleDAO->getArticle($articleId);
+            if($post->get('submit')) {
+                $errors = $this->validation->validate($post, 'Article');
+                if(!$errors) {
+                    $this->articleDAO->editArticle($post, $articleId, $this->session->get('id'));
+                    $this->session->set('edit_article', 'L\' article a bien été modifié');
+                    header('Location: ../public/index.php?route=administration');
+                }
+                return $this->view->render('edit_article', [
+                    'post' => $post,
+                    'errors' => $errors
+                ]);
+
             }
+            $post->set('id', $article->getId());
+            $post->set('title', $article->getTitle());
+            $post->set('content', $article->getContent());
+            $post->set('author', $article->getAuthor());
+
             return $this->view->render('edit_article', [
-                'post' => $post,
-                'errors' => $errors
+                'post' => $post
             ]);
-
         }
-        $post->set('id', $article->getId());
-        $post->set('title', $article->getTitle());
-        $post->set('content', $article->getContent());
-        $post->set('author', $article->getAuthor());
-
-        return $this->view->render('edit_article', [
-            'post' => $post
-        ]);
     }
 
 
     public function editComment(Parameter $post, $id)
     {
-        $comment=$this->commentDAO->getComment($id);
-        if($post->get('submit')){
-            var_dump('soumis');
-            $this->commentDAO->editComment($post, $id);
-            $this->session->set('edit_comment', 'Le commentaire a bien été modifié');
-            header('Location: ../public/index.php?route=article&articleId='.$comment->getArticleId());
+        if($this->checkAdmin()){
+            $comment=$this->commentDAO->getComment($id);
+            if($post->get('submit')){
+                var_dump('soumis');
+                $this->commentDAO->editComment($post, $id);
+                $this->session->set('edit_comment', 'Le commentaire a bien été modifié');
+                header('Location: ../public/index.php?route=article&articleId='.$comment->getArticleId());
+            }
+            $post->set('id',$comment->getId());
+            $post->set('pseudo',$comment->getPseudo());
+            $post->set('content',$comment->getContent());
+            $post->set('articleId',$comment->getArticleId());
+            return $this->view->render('edit_comment', [
+                'post' => $post
+            ]);
         }
-        $post->set('id',$comment->getId());
-        $post->set('pseudo',$comment->getPseudo());
-        $post->set('content',$comment->getContent());
-        $post->set('articleId',$comment->getArticleId());
-        return $this->view->render('edit_comment', [
-            'post' => $post
-        ]);
+
         //$this->session->set('comment_not_found', 'Pas trouvé');
         //header('Location: ../public/index.php');
     }
 
     public function deleteArticle($id)
     {
-        $article = $this->articleDAO->getArticle($id);
-        if ($article->getId()) {
-            $this->articleDAO->deleteComment($id);
-            $this->articleDAO->deleteArticle($id);
-            $this->session->set('article_delete', 'L\'article a été supprimé');
-        } else{
-            $this->session->set('article_not_found', 'L\'article demandé n\'existe pas');
+        if($this->checkAdmin()){
+            $article = $this->articleDAO->getArticle($id);
+            if ($article->getId()) {
+                $this->articleDAO->deleteComment($id);
+                $this->articleDAO->deleteArticle($id);
+                $this->session->set('article_delete', 'L\'article a été supprimé');
+            } else{
+                $this->session->set('article_not_found', 'L\'article demandé n\'existe pas');
+            }
+            header('Location: ../public/index.php?route=administration');
         }
-        header('Location: ../public/index.php?route=administration');
     }
 
     public function deleteCommentSingle($id){
-        $commente = $this->commentDAO->getComment($id);
-        if ($commente->getId()){
-            $this->commentDAO->deleteCommentSingle($id);
-            $this->session->set('comment_delete', 'Commentaire supprimé');
+        if($this->checkAdmin()){
+            $commente = $this->commentDAO->getComment($id);
+            if ($commente->getId()){
+                $this->commentDAO->deleteCommentSingle($id);
+                $this->session->set('comment_delete', 'Commentaire supprimé');
+            }
+            header('Location: ../public/index.php?route=administration');
         }
-        header('Location: ../public/index.php?route=administration');
     }
 
     public function deconnexion($param = null){
-        $this->session->get('pseudo');
-        $this->session->reset();
-        if (!$param){
-            $this->session->set('deconnexion', 'Vous etes déconnecté !');
-        } else {
-            $this->session->set($param, 'Le compte a bien été supprimé');
+        if($this->checkAdmin()){
+            $this->session->get('pseudo');
+            $this->session->reset();
+            if (!$param){
+                $this->session->set('deconnexion', 'Vous etes déconnecté !');
+            } else {
+                $this->session->set($param, 'Le compte a bien été supprimé');
+            }
+            header('Location:../public/index.php');
         }
-        header('Location:../public/index.php');
+
     }
 
     public function deleteAccount(){
-        $ids=$this->session->get('pseudo');
-        $this->userDAO->deleteAccount($ids);
-        $this->deconnexion('delete_account');
+        if($this->checkAdmin()){
+            $ids=$this->session->get('pseudo');
+            $this->userDAO->deleteAccount($ids);
+            $this->deconnexion('delete_account');
+        }
     }
 
     public function editPassword(Parameter $post, $id){
-        var_dump($post);
-        var_dump($id);
         if ($post->get('submit')){
             $this->userDAO->editPassword($post, $id);
             header('Location:../public/index.php');
@@ -126,18 +161,32 @@ class BackController extends Controller
 
     public function administration()
     {
-        $articles=$this->articleDAO->getArticles();
-        $comments=$this->commentDAO->getFlagComments();
-        return $this->view->render('administration',[
-            'articles' => $articles,
-            'comments'=>$comments
-        ]);
+        if($this->checkAdmin()){
+            $articles=$this->articleDAO->getArticles();
+            $comments=$this->commentDAO->getFlagComments();
+            $users=$this->userDAO->getUsers();
+            return $this->view->render('administration',[
+                'articles' => $articles,
+                'comments'=>$comments,
+                'users'=>$users
+            ]);
+        }
     }
 
     public function unflagComment($commentId){
-        $this->commentDAO->unflagComment($commentId);
-        $this->session->set('unflag_comment', 'Le commentaire a bien été désignalé.');
-        header('Location: ../public/index.php?route=administration');
+        if($this->checkAdmin()){
+            $this->commentDAO->unflagComment($commentId);
+            $this->session->set('unflag_comment', 'Le commentaire a bien été désignalé.');
+            header('Location: ../public/index.php?route=administration');
+        }
+    }
+
+    public function deleteUser(){
+        if($this->checkAdmin()){
+            $this->userDAO->deleteAccount($userId);
+            $this->session->set('delete_user', 'L\'utilisateur a bien été supprimé');
+            header('Location:../public/index.php,route=administration;');
+        }
     }
 
 }
