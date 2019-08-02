@@ -19,7 +19,7 @@ class BackController extends Controller
     private function checkAdmin()
     {
         $this->checkLoggedIn();
-        if(!($this->session->get('role') ==='admin')) {
+        if(!($this->session->get('role') ==1)) {
             $this->session->set('not_admin', 'Vous n\'avez pas le droit d\'accéder à cette page');
             header('Location: ../public/index.php?route=profile');
         } else {
@@ -37,12 +37,12 @@ class BackController extends Controller
                     $this->session->set('add_article', 'Le nouvel article a bien été ajouté');
                     header('Location: ../public/index.php?route=administration');
                 }
-                return $this->view->render('add_article', [
+                echo $this->twig->render('add_article.html.twig', [
                     'post' => $post,
                     'errors' => $errors
                 ]);
             }
-            return $this->view->render('add_article');
+            echo $this->twig->render('add_article.html.twig');
         }
     }
 
@@ -58,7 +58,7 @@ class BackController extends Controller
                     $this->session->set('edit_article', 'L\' article a bien été modifié');
                     header('Location: ../public/index.php?route=administration');
                 }
-                return $this->view->render('edit_article', [
+                echo $this->twig->render('edit_article.html.twig', [
                     'post' => $post,
                     'errors' => $errors
                 ]);
@@ -69,7 +69,7 @@ class BackController extends Controller
             $post->set('content', $article->getContent());
             $post->set('author', $article->getAuthor());
 
-            return $this->view->render('edit_article', [
+            echo $this->twig->render('edit_article.html.twig', [
                 'post' => $post
             ]);
         }
@@ -90,7 +90,7 @@ class BackController extends Controller
             $post->set('pseudo',$comment->getPseudo());
             $post->set('content',$comment->getContent());
             $post->set('articleId',$comment->getArticleId());
-            return $this->view->render('edit_comment', [
+            echo $this->twig->render('edit_comment.html.twig', [
                 'post' => $post
             ]);
         }
@@ -152,11 +152,11 @@ class BackController extends Controller
             $this->userDAO->editPassword($post, $id);
             header('Location:../public/index.php');
         }
-        return $this->view->render('edit_password');
+        echo $this->twig->render('edit_password.html.twig');
     }
 
     public function profile(){
-        return $this->view->render('profile');
+        echo $this->twig->render('profile.html.twig');
     }
 
     public function administration()
@@ -165,7 +165,7 @@ class BackController extends Controller
             $articles=$this->articleDAO->getArticles();
             $comments=$this->commentDAO->getFlagComments();
             $users=$this->userDAO->getUsers();
-            return $this->view->render('administration',[
+            echo $this->twig->render('administration.html.twig',[
                 'articles' => $articles,
                 'comments'=>$comments,
                 'users'=>$users

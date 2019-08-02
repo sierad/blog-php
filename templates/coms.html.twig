@@ -1,0 +1,27 @@
+
+
+<table class="table">
+    <thead>
+    <tr>
+        <th scope="col">Id</th>
+        <th scope="col">Pseudo</th>
+        <th scope="col">Message</th>
+        <th scope="col">Date</th>
+        <th scope="col">Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for comment in comments %}
+        <tr>
+            <td>{{ comment.id }}</td>
+            <td>{{ comment.pseudo }}</td>
+            <td>{{ comment.content | striptags | slice(0, 150)}}</td>
+            <td>Créé le : {{ comment.createdAt }}</td>
+            <td>
+                <a href="../public/index.php?route=unflagComment&commentId=<?= $comment->getId(); ?>">Désignaler le commentaire</a>
+                <a href="../public/index.php?route=deleteCommentSingle&commentId=<?= $comment->getId()?>"> Supprimer le commentaire  </a>
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>

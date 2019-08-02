@@ -9,16 +9,19 @@ class FrontController extends Controller
     public function home()
     {
         $articles = $this->articleDAO->getArticles();
-        return $this->view->render('home', [
-           'articles' => $articles
+        echo $this->twig->render('home.html.twig',[
+            'articles'=>$articles
         ]);
+        /*return $this->view->render('home', [
+           'articles' => $articles
+        ]);*/
     }
 
     public function article($articleId)
     {
         $article = $this->articleDAO->getArticle($articleId);
         $comments = $this->commentDAO->getCommentsFromArticle($articleId);
-        return $this->view->render('single', [
+        echo $this->twig->render('single.html.twig', [
             'article' => $article,
             'comments' => $comments
         ]);
@@ -27,7 +30,7 @@ class FrontController extends Controller
     public function commentaire($commentId)
     {
         $commente = $this->commentDAO->getComment($commentId);
-        return $this->view->render('singleCom',[
+        echo $this->twig->render('singleCom.html.twig',[
             'comment'=>$commente
         ]);
     }
@@ -44,7 +47,7 @@ class FrontController extends Controller
             }
             $article = $this->articleDAO->getArticle($post->get('articleId'));
             $comments=$this->commentDAO->getCommentsFromArticle($post->get('articleId'));
-            return $this->view->render('single', [
+            echo $this->twig->render('single.html.twig', [
                 'article'=>$article,
                 'comments'=>$comments,
                 'post'=>$post,
@@ -72,12 +75,12 @@ class FrontController extends Controller
                     $this->session->set('badPass', 'Le pseudo existe deja ! ');
                 }
             }
-            return $this->view->render('inscription',[
+            echo $this->twig->render('inscription.html.twig',[
                 'post'=>$post,
                 'errors'=>$errors
             ]);
         }
-        return $this->view->render('inscription');
+        echo $this->twig->render('inscription.html.twig');
     }
 
     public function connexion(Parameter $post){
@@ -87,7 +90,6 @@ class FrontController extends Controller
                 $this->session->set('bad_connexion', 'Mauvais identifiant ou mot de passe');
             }
             else {
-                var_dump($values);
                 $this->session->set('id', $values['resultat']['id']);
                 $this->session->set('pseudo', $values['resultat']['pseudo']);
                 $this->session->set('role', $values['resultat']['role_id']);
@@ -95,7 +97,7 @@ class FrontController extends Controller
                 header('Location:../public/index.php');
             }
         }
-        return $this->view->render('connexion');
+        echo $this->twig->render('connexion.html.twig');
     }
 
 }

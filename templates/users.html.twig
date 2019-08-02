@@ -1,0 +1,28 @@
+<table class="table">
+    <thead>
+    <tr>
+        <th scope="col">Id</th>
+        <th scope="col">Pseudo</th>
+        <th scope="col">Date</th>
+        <th scope="col">Rôle</th>
+        <th scope="col">Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for user in users %}
+        <tr>
+            <td>{{ user.id }}</td>
+            <td>{{ user.pseudo }}</td>
+            <td>Créé le : {{ user.createdAt }}</td>
+            <td>{{ user.role }}</td>
+            <td>
+                {% if user.role == 'admin' %}
+                    <a href="../public/index.php?route=deleteUser&userId={{ user.id }}">Supprimer</a>
+                {% else %}
+                    Suppression impossible
+                {% endif %}
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>

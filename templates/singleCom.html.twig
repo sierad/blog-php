@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+{% block title %}Commentaire{% endblock %}
+{% block content %}
+<h1>Mon blog</h1>
+<p>En construction</p>
+
+<div>
+    <h2>{{ comment.pseudo }}</h2>
+    <p>{{ comment.content }}</p>
+    <p>{{ comment.createdAt }}</p>
+
+</div>
+{% endblock %}

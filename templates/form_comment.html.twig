@@ -1,0 +1,27 @@
+{{ dump (post) }}
+{% if post and post.get('id') %}
+    {% set route = 'editComment' %}
+{% else %}
+    {% set route = 'addComment' %}
+{% endif %}
+
+{% if route == 'addComment' %}
+    {% set button = 'Ajouter' %}
+{% else %}
+    {% set button='Mettre à jour' %}
+{% endif %}
+
+<div>
+    <form method="post" action="../public/index.php?route={{ route }}{% if route == 'editComment' %}&commentId={{ post.get('id') }}{% endif %}&articleId={% if article %}{{ article.id }}{% endif %}">
+        <label for="pseudo">Pseudo</label><br>
+        <input type="text" id="pseudo" name="pseudo" value="{% if post %}{{ post.get('pseudo') }}{% else %}{{ '' }}{% endif %}"><br>
+        {% if errors.pseudo %} {{ errors.pseudo }} {% else %} {{ '' }}{% endif %}
+        <label for="content">Contenu</label><br>
+        <textarea id="content" name="content">{% if post %}{{ post.get('content') }}{% else %}{{ '' }}{% endif %}</textarea><br>
+        {% if errors.content %} {{ errors.content }} {% else %} {{ '' }}{% endif %}
+        <input type="submit" value={{ button }} id="submit" name="submit">
+    </form>
+</div>
+
+<a href="../public/index.php">Retour à l'accueil</a>
+

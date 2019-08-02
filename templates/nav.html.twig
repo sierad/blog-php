@@ -1,0 +1,24 @@
+<aside id="colorlib-aside" role="complementary" class="js-fullheight">
+    <nav id="colorlib-main-menu" role="navigation">
+        <ul>
+            <li><a  href="../public/index.php">Accueil</a></li>
+            {% if session.get('pseudo') %}
+                <li><a href="../public/index.php?route=deconnexion">Deconnexion</a></li>
+                <li><a href="../public/index.php?route=profile">Profil</a></li>
+                {% if session.get('role') == 1 %}
+                    <li><a href="../public/index.php?route=administration">Administration</a></li>
+                {% endif %}
+            {% else %}
+                <li><a href="../public/index.php?route=connexion">Connexion</a></li>
+                <li><a href="../public/index.php?route=inscription">Inscription</a></li>
+            {% endif %}
+        </ul>
+    </nav>
+
+    <div class="colorlib-footer">
+        <h1 id="colorlib-logo" class="mb-5"><a href="../public/index.php" style="background-image: url(images/bg_1.jpg);">Lou Mntg</a></h1>
+        <p class="pfooter"><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+            Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="icon-heart" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
+            <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></p>
+    </div>
+</aside> <!-- END COLORLIB-ASIDE -->

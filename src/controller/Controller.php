@@ -35,6 +35,10 @@ abstract class Controller
         $this->session = $this->request->getSession();
         $this->userDAO = new UserDAO();
         $this->loader = new \Twig\Loader\FilesystemLoader('../templates');
-        $this->twig= new \Twig\Environment($this->loader, []);
+        $this->twig= new \Twig\Environment($this->loader, [
+            'debug'=> true
+        ]);
+        $this->twig->addGlobal('session', $this->session);
+        $this->twig->addExtension(new \Twig\Extension\DebugExtension());
     }
 }

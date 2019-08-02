@@ -1,0 +1,55 @@
+{% extends 'base.html.twig' %}
+{% block title %} Accueil {% endblock %}
+
+{% block content  %}
+    <div class="container-fluide">
+        <div class="row"></div>
+            <div id="colorlib-page">
+                {% include 'nav.html.twig' %}
+                <div class="container" id="colorlib-main">
+                    <div class="row d-flex">
+                        <div class="col-xl-8 py-5 px-md-5">
+                            <div class="row pt-md-4">
+
+                            {{ session.show('article_not_found') }}
+                            {{ session.show('connexion') }}
+                                {#{{ session.get('id') }}#}
+                                {#{{ session.get('role') }}#}
+                            {{ session.show('deconnexion') }}
+                            {{ session.show('delete_account') }}
+                            {{ session.show('flag_comment') }}
+
+                            {% for article in articles %}
+                                <div class="col-md-12">
+                                    <div class="blog-entry ftco-animate d-md-flex fadeInUp ftco-animated">
+                                        <div class="text text-2 pl-md-4">
+                                            <h3 class="mb-2"><a href="../public/index.php?route=article&articleId={{ article.id }}">{{ article.title }}</a></h3>
+                                            <div class="meta-wrap">
+                                                <p class="meta">
+                                                    <span>
+                                                        <i class="icon-calendar mr-2"></i>
+                                                        "Créé le : {{ article.createdAt }}"
+                                                    </span>
+                                                    <span>
+                                                        <i class="fas fa-user-tag"></i>
+                                                         by {{ article.author }}
+                                                    </span>
+                                                </p>
+                                            </div>
+                                            <p class="mb-4">{{ article.content |slice(0,200)  }}</p>
+                                            <p><a href="../public/index.php?route=article&articleId={{ article.id }}" class="btn-custom">Lire la suite >></a> </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <br>
+                            {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div><!-- END COLORLIB-MAIN -->
+
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

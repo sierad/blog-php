@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+{% block title %}Mon profil {% endblock %}
+{% block content %}
+    {{ session.show('updtate_password') }}
+    {{ session.show('not_admin') }}
+    {{ session.show('nedd_login') }}
+
+<a href="../public/index.php">Retour à l'accueil</a>
+
+    <div class="container-fluide">
+        <div class="row"></div>
+        <div id="colorlib-page">
+            {% include 'nav.html.twig' %}
+            <div class="container" id="colorlib-main">
+
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th scope="col">Id</th>
+                        <th scope="col">Pseudo</th>
+                        <th scope="col">Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>{{ session.get('id') }}</td>
+                        <td>{{ session.get("pseudo") }}</td>
+                        <td>
+                            <a href="../public/index.php?route=editPassword">Modifier mot de passe</a>
+                            <a href="../public/index.php?route=deleteAccount">Supprimer mon compte</a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div><!-- END COLORLIB-MAIN -->
+
+        </div>
+    </div>
+    </div>
+
+{% endblock %}
+
