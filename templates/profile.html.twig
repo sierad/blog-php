@@ -5,14 +5,12 @@
     {{ session.show('not_admin') }}
     {{ session.show('nedd_login') }}
 
-<a href="../public/index.php">Retour à l'accueil</a>
-
     <div class="container-fluide">
         <div class="row"></div>
         <div id="colorlib-page">
             {% include 'nav.html.twig' %}
             <div class="container" id="colorlib-main">
-
+                <a href="../public/index.php"><i class="fas fa-backward"></i> Retour à l'accueil</a>
                 <table class="table">
                     <thead>
                     <tr>

@@ -126,16 +126,14 @@ class BackController extends Controller
     }
 
     public function deconnexion($param = null){
-        if($this->checkAdmin()){
-            $this->session->get('pseudo');
-            $this->session->reset();
-            if (!$param){
-                $this->session->set('deconnexion', 'Vous etes déconnecté !');
-            } else {
-                $this->session->set($param, 'Le compte a bien été supprimé');
-            }
-            header('Location:../public/index.php');
+        $this->session->get('pseudo');
+        $this->session->reset();
+        if (!$param){
+            $this->session->set('deconnexion', 'Vous etes déconnecté !');
+        } else {
+            $this->session->set($param, 'Le compte a bien été supprimé');
         }
+        header('Location:../public/index.php');
 
     }
 
