@@ -1,0 +1,34 @@
+<div class="col-xl-4 sidebar ftco-animate bg-light pt-5 fadeInUp ftco-animated">
+    <div class="sidebar-box ftco-animate fadeInUp ftco-animated">
+        <h3>Jean Forteroche</h3>
+        <p><i class="fas fa-quote-left"></i> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ducimus itaque, autem necessitatibus voluptate quod mollitia delectus aut. <i class="fas fa-quote-left"></i></p>
+    </div>
+    <div class="sidebar-box ftco-animate fadeInUp ftco-animated">
+        <h3>Les chapitres</h3>
+        {% for article in articles %}
+            <div class="block-21 mb-4 d-flex">
+                <div class="text">
+                    <h3 class="heading"><a href="../public/index.php?route=article&articleId={{ article.id }}">{{ article.title }}</a></h3>
+                    <div class="meta">
+                        <div>
+                            <a href="#">
+                                <span class="icon-calendar">
+                                </span>
+                                {{ article.createdAt }}
+                            </a>
+                        </div>
+                        <div>
+                            <a href="#">
+                                <span class="icon-person">
+
+                                </span>
+                                {{ article.author }}
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+
+    </div>
+</div>

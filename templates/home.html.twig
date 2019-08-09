@@ -10,7 +10,11 @@
                     <div class="row d-flex">
                         <div class="col-xl-8 py-5 px-md-5">
                             <div class="row pt-md-4">
-
+                            {% if session.show('connexion') %}
+                                <div class="alert alert-primary" role="alert">
+                                    {{ session.show('connexion') }}
+                                </div>
+                                {% endif %}
                             {{ session.show('article_not_found') }}
                             {{ session.show('connexion') }}
                                 {#{{ session.get('id') }}#}
@@ -45,6 +49,7 @@
                             {% endfor %}
                             </div>
                         </div>
+                        {% include 'side.html.twig' %}
                     </div>
                 </div><!-- END COLORLIB-MAIN -->
 
