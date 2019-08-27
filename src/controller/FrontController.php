@@ -8,9 +8,11 @@ class FrontController extends Controller
 {
     public function home()
     {
-        $articles = $this->articleDAO->getArticles();
+        $pagination = $this->pagination->paginate(5, $this->get->get('page'), $this->articleDAO->total() );
+        $articles = $this->articleDAO->getArticles($pagination->getLimit(), $this->pagination->getStart());
         echo $this->twig->render('home.html.twig',[
-            'articles'=>$articles
+            'articles'=>$articles,
+            'pagination' => $pagination
         ]);
         /*return $this->view->render('home', [
            'articles' => $articles

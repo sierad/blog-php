@@ -7,6 +7,7 @@ use App\src\constraint\Validation;
 use App\src\DAO\ArticleDAO;
 use App\src\DAO\CommentDAO;
 use App\src\DAO\UserDAO;
+use App\src\model\Pagination;
 use App\src\model\View;
 
 abstract class Controller
@@ -19,6 +20,7 @@ abstract class Controller
     protected $post;
     protected $session;
     protected $userDAO;
+    protected $pagination;
     protected $validation;
     protected $loader;
     protected $twig;
@@ -29,6 +31,7 @@ abstract class Controller
         $this->commentDAO = new CommentDAO();
         $this->view = new View();
         $this->validation = new Validation();
+        $this->pagination = new Pagination();
         $this->request = new Request();
         $this->get = $this->request->getGet();
         $this->post = $this->request->getPost();

@@ -1,24 +1,37 @@
 {% extends 'base.html.twig' %}
 {% block title %} Inscription {% endblock %}
-{% block content %}
-    <h1>Mon blog</h1>
-    <p>En construction</p>
+{% block content  %}
+    <div class="container-fluide">
+        <div class="row"></div>
+        <div id="colorlib-page">
+            {% include 'nav.html.twig' %}
+            <div class="container" id="colorlib-main">
+                <div class="row d-flex">
+                    <div class="col-xl-8 py-5 px-md-5">
+                        <div class="row pt-md-4">
+                            {{ session.show('badPass') }}
+                            <div>
+                                <a href="../public/index.php"><i class="fas fa-backward"></i> Retour à l'accueil</a><br>
+                                <form method="post" action="../public/index.php?route=inscription">
+                                    <label for="pseudo">Pseudo</label><br>
+                                    <input type="text" id="pseudo" name="pseudo"><br>
+                                    {% if errors.pseudo %} {{ errors.pseudo }} {% else %} {{ '' }}{% endif %}
+                                    <label for="mail">Email</label><br>
+                                    <input type="text" id="mail" name="mail"><br>
+                                    <label for="password">Mot de passe</label><br>
+                                    <input type="password" id="password" name="password"><br>
+                                    {% if errors.password %} {{ errors.password }} {% else %} {{ '' }}{% endif %}
+                                    <input type="submit" value="Envoyer" id="submit" name="submit">
+                                </form>
 
-    {{ session.show('badPass') }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div><!-- END COLORLIB-MAIN -->
 
-    <div>
-        <form method="post" action="../public/index.php?route=inscription">
-            <label for="pseudo">Pseudo</label><br>
-            <input type="text" id="pseudo" name="pseudo"><br>
-            {% if errors.pseudo %} {{ errors.pseudo }} {% else %} {{ '' }}{% endif %}
-            <label for="mail">Email</label><br>
-            <input type="text" id="mail" name="mail"><br>
-            <label for="password">Mot de passe</label><br>
-            <input type="password" id="password" name="password"><br>
-            {% if errors.password %} {{ errors.password }} {% else %} {{ '' }}{% endif %}
-            <input type="submit" value="Envoyer" id="submit" name="submit">
-        </form>
-        <a href="../public/index.php">Retour à l'accueil</a>
+        </div>
     </div>
-{% endblock %}
+    </div>
 
+{% endblock %}

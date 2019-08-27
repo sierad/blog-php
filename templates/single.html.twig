@@ -1,5 +1,5 @@
 {% extends 'base.html.twig' %}
-{% block title %} Article {{ article.title }} {% endblock %}
+{% block title %} {{ article.title }} {% endblock %}
 {% block content  %}
         <div class="container-fluide">
             <div class="row"></div>
@@ -7,7 +7,7 @@
                 {% include 'nav.html.twig' %}
                 <div class="container" id="colorlib-main">
                     <div class="row d-flex">
-                        <div class="col-xl-8 py-5 px-md-5">
+                        <div class="col-xl-10 py-5 px-md-5">
                             <div class="row pt-md-4">
                                 {{ session.show('add_comment') }}
                                 {{ session.show('edit_comment') }}
@@ -16,7 +16,7 @@
                                     <h2>{{ article.title }}</h2>
                                     <p>{{ article.content }}</p>
                                     <p>{{ article.author }}</p>
-                                    <p>Créé le : {{ article.createdAt }}</p>
+                                    <p>Créé le : {{ article.createdAt|date("d.m.Y à H:i") }}</p>
                                 </div>
                                 <br>
 
@@ -30,7 +30,7 @@
                                     {% for comment in comments %}
                                         <h4>{{ comment.pseudo }}</h4>
                                         <p>{{ comment.content }}</p>
-                                        <p>Posté le {{ comment.createdAt }}</p>
+                                        <p>Posté le {{ comment.createdAt|date("d.m.Y à H:i") }}</p>
                                         {% if comment.flag %}
                                             <p>Ce commentaire a déjà été signalé</p>
                                         {% else %}

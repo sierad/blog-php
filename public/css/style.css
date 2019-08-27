@@ -41,6 +41,7 @@
   -webkit-box-sizing: border-box;
   box-sizing: border-box; }
 
+
 html {
   font-family: sans-serif;
   line-height: 1.15;
@@ -8897,7 +8898,9 @@ textarea.form-control {
     font-size: 18px;
     padding-top: 2px;
     color: white; }
-
+.block-27{
+  margin: auto;
+}
 .block-27 ul {
   padding: 0;
   margin: 0; }

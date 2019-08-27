@@ -38,15 +38,26 @@ abstract class DAO
 
     }
 
-    protected function createQuery($sql, $parameters = null)
+    protected function createQuery($sql, $parameters = null, $pagination = null)
     {
-        if($parameters)
+        if($parameters && !$pagination)
         {
             $result = $this->checkConnection()->prepare($sql);
             $result->execute($parameters);
             return $result;
         }
+        else if($pagination)
+        {
+            $result = $this->checkConnection()->prepare($sql);
+            foreach ($parameters as $key => $value)
+            {
+                $result->bindValue($key, $value, PDO::PARAM_INT);
+            }
+            $result->execute();
+            return $result;
+        }
         $result = $this->checkConnection()->query($sql);
         return $result;
     }
+
 }

@@ -19,10 +19,14 @@ class ArticleDAO extends DAO
         return $article;
     }
 
-    public function getArticles()
+    public function total()
     {
-        $sql = 'SELECT article.id, article.title, article.content, user.pseudo , article.createdAt FROM article INNER JOIN user ON article.user_id=user.id ORDER BY id DESC';
-        $result = $this->createQuery($sql);
+        $sql = 'SELECT COUNT(*) FROM article';
+        return $this->createQuery($sql)->fetchColumn();
+    }
+
+    private function buildArticles($result)
+    {
         $articles = [];
         foreach ($result as $row){
             $articleId = $row['id'];
@@ -30,6 +34,19 @@ class ArticleDAO extends DAO
         }
         $result->closeCursor();
         return $articles;
+    }
+
+    public function getArticles($limit = null, $start = null)
+    {
+        $sql = 'SELECT article.id, article.title, article.content, user.pseudo , article.createdAt FROM article INNER JOIN user ON article.user_id=user.id ORDER BY id DESC';
+        if($limit) {
+            $sql .= ' LIMIT :limit OFFSET :start';
+        }
+        $result = $this->createQuery($sql, [
+            'limit' => $limit,
+            'start' => $start
+        ], true);
+        return $this->buildArticles($result);
     }
 
     public function getArticle($articleId)

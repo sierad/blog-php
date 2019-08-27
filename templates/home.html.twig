@@ -9,20 +9,15 @@
                 <div class="container" id="colorlib-main">
                     <div class="row d-flex">
                         <div class="col-xl-8 py-5 px-md-5">
-                            <div class="row pt-md-4">
-                            {% if session.show('connexion') %}
-                                <div class="alert alert-primary" role="alert">
-                                    {{ session.show('connexion') }}
-                                </div>
-                                {% endif %}
+                            {{ session.show('connexion') }}
                             {{ session.show('article_not_found') }}
                             {{ session.show('connexion') }}
-                                {#{{ session.get('id') }}#}
-                                {#{{ session.get('role') }}#}
+                            {#{{ session.get('id') }}#}
+                            {#{{ session.get('role') }}#}
                             {{ session.show('deconnexion') }}
                             {{ session.show('delete_account') }}
                             {{ session.show('flag_comment') }}
-
+                            <div class="row pt-md-4">
                             {% for article in articles %}
                                 <div class="col-md-12">
                                     <div class="blog-entry ftco-animate d-md-flex fadeInUp ftco-animated">
@@ -32,7 +27,7 @@
                                                 <p class="meta">
                                                     <span>
                                                         <i class="icon-calendar mr-2"></i>
-                                                        "Créé le : {{ article.createdAt }}"
+                                                        "Créé le : {{ article.createdAt|date("d.m.Y à H:i") }}"
                                                     </span>
                                                     <span>
                                                         <i class="fas fa-user-tag"></i>
@@ -47,6 +42,19 @@
                                 </div>
                                 <br>
                             {% endfor %}
+
+                            <div class="block-27">
+                                <ul>
+                                    {% for i in 1..pagination.pageNumber %}
+                                        {% if pagination.page == i %}
+                                            <li class="active"><span>{{ i }}</span></li>
+                                        {% else %}
+                                            <li><a href="../public/index.php?page={{ i }}"> {{ i }} </a></li>
+                                        {% endif %}
+                                    {% endfor %}
+                                </ul>
+                            </div>
+
                             </div>
                         </div>
                         {% include 'side.html.twig' %}
