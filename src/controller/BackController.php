@@ -41,6 +41,7 @@ class BackController extends Controller
                     'post' => $post,
                     'errors' => $errors
                 ]);
+                return;
             }
             echo $this->twig->render('add_article.html.twig');
         }

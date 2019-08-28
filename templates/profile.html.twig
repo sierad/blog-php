@@ -10,26 +10,32 @@
         <div id="colorlib-page">
             {% include 'nav.html.twig' %}
             <div class="container" id="colorlib-main">
-                <a href="../public/index.php"><i class="fas fa-backward"></i> Retour à l'accueil</a>
-                <table class="table">
-                    <thead>
-                    <tr>
-                        <th scope="col">Id</th>
-                        <th scope="col">Pseudo</th>
-                        <th scope="col">Actions</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr>
-                        <td>{{ session.get('id') }}</td>
-                        <td>{{ session.get("pseudo") }}</td>
-                        <td>
-                            <a href="../public/index.php?route=editPassword">Modifier mot de passe</a>
-                            <a href="../public/index.php?route=deleteAccount">Supprimer mon compte</a>
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
+                <div class="row d-flex">
+                    <div class="col-xl-10 py-5 px-md-5">
+                        <div class="row pt-md-4">
+                            <a href="../public/index.php"><i class="fas fa-backward"></i> Retour à l'accueil</a>
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <th scope="col">Id</th>
+                                    <th scope="col">Pseudo</th>
+                                    <th scope="col">Actions</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td>{{ session.get('id') }}</td>
+                                    <td>{{ session.get("pseudo") }}</td>
+                                    <td>
+                                        <a href="../public/index.php?route=editPassword"><i class="far fa-edit"></i> Modifier mot de passe</a><br>
+                                        <a href="../public/index.php?route=deleteAccount"><i class="far fa-trash-alt"></i> Supprimer mon compte</a>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
             </div><!-- END COLORLIB-MAIN -->
         </div>
     </div>

@@ -9,14 +9,21 @@
                 <div class="container" id="colorlib-main">
                     <div class="row d-flex">
                         <div class="col-xl-8 py-5 px-md-5">
-                            {{ session.show('connexion') }}
-                            {{ session.show('article_not_found') }}
-                            {{ session.show('connexion') }}
-                            {#{{ session.get('id') }}#}
-                            {#{{ session.get('role') }}#}
-                            {{ session.show('deconnexion') }}
-                            {{ session.show('delete_account') }}
-                            {{ session.show('flag_comment') }}
+                            {% if session.show('connexion') is defined %}
+                                <span class="badge badge-primary">{{ session.show('connexion') }}</span>
+                            {% endif %}
+                            {% if session.show('article_not_found') is defined %}
+                                <span class="badge badge-primary">{{ session.show('article_not_found') }}</span>
+                            {% endif %}
+                            {% if session.show('deconnexion') is defined %}
+                                <span class="badge badge-primary">{{ session.show('deconnexion') }}</span>
+                            {% endif %}
+                            {% if session.show('delete_account') is defined %}
+                                <span class="badge badge-primary">{{ session.show('delete_account') }}</span>
+                            {% endif %}
+                            {% if session.show('flag_comment') is defined %}
+                                <span class="badge badge-primary">{{ session.show('flag_comment') }}</span>
+                            {% endif %}
                             <div class="row pt-md-4">
                             {% for article in articles %}
                                 <div class="col-md-12">
@@ -42,7 +49,6 @@
                                 </div>
                                 <br>
                             {% endfor %}
-
                             <div class="block-27">
                                 <ul>
                                     {% for i in 1..pagination.pageNumber %}

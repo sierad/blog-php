@@ -12,50 +12,28 @@
 <div class="container-fluide">
     <div class="row"></div>
     <div id="colorlib-page">
-        <aside id="colorlib-aside" role="complementary" class="js-fullheight">
-            <nav id="colorlib-main-menu" role="navigation">
-                <ul>
-                    <li><a  href="../public/index.php">Accueil</a></li>
-                    {% if session.get('pseudo') %}
-                        <li><a href="../public/index.php?route=deconnexion">Deconnexion</a></li>
-                        <li><a href="../public/index.php?route=profile">Profil</a></li>
-                        {% if session.get('role') == 1 %}
-                            <li><a href="../public/index.php?route=administration">Administration</a></li>
-                        {% endif %}
-                        <li><a href="../public/index.php?route=addArticle">Nouvel article</a></li>
-                    {% else %}
-                        <li><a href="../public/index.php?route=connexion">Connexion</a></li>
-                        <li><a href="../public/index.php?route=inscription">Inscription</a></li>
-                    {% endif %}
-                </ul>
-            </nav>
-
-            <div class="colorlib-footer">
-                <h1 id="colorlib-logo" class="mb-5"><a href="../public/index.php" style="background-image: url(images/bg_1.jpg);">Mon blog</a></h1>
-                <p class="pfooter"><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                    Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="icon-heart" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
-                    <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></p>
-            </div>
-        </aside> <!-- END COLORLIB-ASIDE -->
+        {% include 'nav.html.twig' %}
         <div class="container" id="colorlib-main">
             <div class="row d-flex">
                 <div class="col-xl-8 py-5 px-md-5">
                     <div class="col-md-6">
+                        <a href="../public/index.php"><i class="fas fa-backward"></i> Retour à l'accueil</a><br>
+                        <a href="../public/index.php?route=administration"><i class="fas fa-backward"></i> Retour à l'administration</a><br>
+
                         <form method="post" action="../public/index.php?route={{ route }}{% if route =='editArticle' %}&articleId={{ post.get('id') }}{% endif %}">
                             <div class="form-group">
-                                <label for="title">Titre</label><br>
-                                <input type="text" id="title" class="form-control" name="title" value="{% if post %}{{ post.get('title') }}{% else %}{{ '' }}{% endif %}"><br>
+                                <label for="title">Titre</label>
+                                <input type="text" class="form-control" id="title" class="form-control" name="title" value="{% if post %}{{ post.get('title') }}{% else %}{{ '' }}{% endif %}" >
                                 {% if errors.title %} {{ errors.title }} {% else %} {{ '' }}{% endif %}
                             </div>
                             <div class="form-group">
-                                <label for="content">Contenu</label><br>
-                                <textarea id="content" class="form-control" name="content" >{% if post %}{{ post.get('content') }}{% else %}{{ '' }}{% endif %}</textarea><br>
+                                <label for="content">Contenu</label>
+                                <textarea class="form-control" id="content" class="form-control" name="content" rows="3">{% if post %}{{ post.get('content') }}{% else %}{{ '' }}{% endif %}</textarea>
                                 {% if errors.content %} {{ errors.content }} {% else %} {{ '' }}{% endif %}
                             </div>
-                            <input type="submit" value="{{ submit }}" id="submit" name="submit" class="btn btn-danger">
+                            <input type="submit" value="{{ submit }}" id="submit" name="submit" class="btn btn-primary" >
                         </form>
                     </div>
-                    <a href="../public/index.php">Retour à l'accueil</a>
                 </div>
             </div>
         </div><!-- END COLORLIB-MAIN -->

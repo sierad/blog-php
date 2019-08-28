@@ -7,10 +7,17 @@
                 {% include 'nav.html.twig' %}
                 <div class="container" id="colorlib-main">
                     <div class="row d-flex">
-                        <div class="col-xl-10 py-5 px-md-5">
+                        <div class="col-xl-8 py-5 px-md-5">
+                            {% if session.show('errors') is defined %}
+                                <span class="badge badge-danger">{{ session.show('errors') }}</span>
+                            {% endif %}
+                            {% if session.show('add_comment') is defined %}
+                                <span class="badge badge-primary">{{ session.show('add_comment') }}</span>
+                            {% endif %}
+                            {% if session.show('edit_comment') is defined %}
+                                <span class="badge badge-primary">{{ session.show('edit_comment') }}</span>
+                            {% endif %}
                             <div class="row pt-md-4">
-                                {{ session.show('add_comment') }}
-                                {{ session.show('edit_comment') }}
                                 <a href="../public/index.php"><i class="fas fa-backward"></i> Retour à l'accueil </a>
                                 <div>
                                     <h2>{{ article.title }}</h2>
@@ -23,7 +30,7 @@
                                 <div id="comments" class="text-left" style="margin-left: 50px">
                                     <h3>Commentaires</h3>
                                     <div id="button">
-                                        {% include 'add_comment.html.twig' %}
+                                        {% include 'form_comment.html.twig' %}
                                     </div>
                                     <br><hr><br>
 
@@ -41,6 +48,7 @@
                             </div>
                         </div>
                     </div>
+                        {% include 'side.html.twig' %}
                 </div><!-- END COLORLIB-MAIN -->
 
             </div>

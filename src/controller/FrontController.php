@@ -10,22 +10,23 @@ class FrontController extends Controller
     {
         $pagination = $this->pagination->paginate(5, $this->get->get('page'), $this->articleDAO->total() );
         $articles = $this->articleDAO->getArticles($pagination->getLimit(), $this->pagination->getStart());
+        $allArticles = $this->articleDAO->getArticles();
         echo $this->twig->render('home.html.twig',[
             'articles'=>$articles,
-            'pagination' => $pagination
+            'pagination' => $pagination,
+            'allArticles' =>$allArticles
         ]);
-        /*return $this->view->render('home', [
-           'articles' => $articles
-        ]);*/
     }
 
     public function article($articleId)
     {
         $article = $this->articleDAO->getArticle($articleId);
         $comments = $this->commentDAO->getCommentsFromArticle($articleId);
+        $allArticles = $this->articleDAO->getArticles();
         echo $this->twig->render('single.html.twig', [
             'article' => $article,
-            'comments' => $comments
+            'comments' => $comments,
+            'allArticles' =>$allArticles
         ]);
     }
 
@@ -39,22 +40,15 @@ class FrontController extends Controller
 
     public function addComment(Parameter $post, $articleId){
         if($post->get('submit') ){
-            var_dump($post);
-            var_dump($articleId);
             $errors=$this->validation->validate($post, 'Comment');
             if(!$errors){
                 $this->commentDAO->addComment($post, $articleId);
                 $this->session->set('add_comment', 'Le commentaire est bien ajouté');
                 header('Location: ../public/index.php?route=article&articleId='. $articleId);
+            } elseif ($errors){
+                $this->session->set('errors', 'Pensez a bien remplir les champs');
+                header('Location: ../public/index.php?route=article&articleId='. $articleId);
             }
-            $article = $this->articleDAO->getArticle($post->get('articleId'));
-            $comments=$this->commentDAO->getCommentsFromArticle($post->get('articleId'));
-            echo $this->twig->render('single.html.twig', [
-                'article'=>$article,
-                'comments'=>$comments,
-                'post'=>$post,
-                'errors'=>$errors
-            ]);
         }
     }
 
@@ -73,7 +67,8 @@ class FrontController extends Controller
                 if (!$values['resultat']['pseudo']){
                     $this->userDAO->inscription($post);
                     header('Location:../public/index.php?route=connexion');
-                } else {
+                }
+                else {
                     $this->session->set('badPass', 'Le pseudo existe deja ! ');
                 }
             }

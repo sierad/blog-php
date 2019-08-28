@@ -10,6 +10,7 @@
         <th scope="col">Actions</th>
     </tr>
     </thead>
+
     <tbody>
     {% for comment in comments %}
         <tr>
@@ -18,8 +19,8 @@
             <td>{{ comment.content | striptags | slice(0, 150)}}</td>
             <td>Créé le : {{ comment.createdAt }}</td>
             <td>
-                <a href="../public/index.php?route=unflagComment&commentId=<?= $comment->getId(); ?>">Désignaler le commentaire</a>
-                <a href="../public/index.php?route=deleteCommentSingle&commentId=<?= $comment->getId()?>"> Supprimer le commentaire  </a>
+                <a href="../public/index.php?route=unflagComment&commentId={{ comment.id }}"><i class="far fa-smile"></i> Désignaler le commentaire</a><br>
+                <a href="../public/index.php?route=deleteCommentSingle&commentId={{ comment.id }}"><i class="far fa-trash-alt"></i> Supprimer le commentaire  </a>
             </td>
         </tr>
     {% endfor %}

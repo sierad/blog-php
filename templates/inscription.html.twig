@@ -9,21 +9,29 @@
                 <div class="row d-flex">
                     <div class="col-xl-8 py-5 px-md-5">
                         <div class="row pt-md-4">
-                            {{ session.show('badPass') }}
+                            {% if session.show('badPass') is defined %}
+                                <span class="badge badge-danger">{{ session.show('badPass') }}</span>
+                            {% endif %}
                             <div>
                                 <a href="../public/index.php"><i class="fas fa-backward"></i> Retour à l'accueil</a><br>
-                                <form method="post" action="../public/index.php?route=inscription">
-                                    <label for="pseudo">Pseudo</label><br>
-                                    <input type="text" id="pseudo" name="pseudo"><br>
-                                    {% if errors.pseudo %} {{ errors.pseudo }} {% else %} {{ '' }}{% endif %}
-                                    <label for="mail">Email</label><br>
-                                    <input type="text" id="mail" name="mail"><br>
-                                    <label for="password">Mot de passe</label><br>
-                                    <input type="password" id="password" name="password"><br>
-                                    {% if errors.password %} {{ errors.password }} {% else %} {{ '' }}{% endif %}
-                                    <input type="submit" value="Envoyer" id="submit" name="submit">
-                                </form>
 
+                                <form method="post" action="../public/index.php?route=inscription">
+                                    <div class="form-group">
+                                        <label for="pseudo">Pseudo</label>
+                                        <input type="text" class="form-control" id="pseudo" name="pseudo" aria-describedby="emailHelp" >
+                                        {% if errors.pseudo %} {{ errors.pseudo }} {% else %} {{ '' }}{% endif %}
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="mail">Email</label>
+                                        <input type="text" class="form-control" id="mail" name="mail" >
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="password">Mot de passe</label>
+                                        <input type="password" class="form-control" id="password" name="password"  placeholder="Password">
+                                        {% if errors.pseudo %} {{ errors.pseudo }} {% else %} {{ '' }}{% endif %}
+                                    </div>
+                                    <input type="submit" value="Inscription" id="submit" name="submit" class="btn btn-primary" >
+                                </form>
                             </div>
                         </div>
                     </div>
