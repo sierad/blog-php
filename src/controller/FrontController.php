@@ -18,16 +18,32 @@ class FrontController extends Controller
         ]);
     }
 
-    public function article($articleId)
+    public function article($articleId, Parameter $post)
     {
+        $errors=$this->validation->validate($post, 'Comment');
+        if ($post->get('submit')){
+            $this->addComment($errors , $post ,$articleId);
+        }
         $article = $this->articleDAO->getArticle($articleId);
         $comments = $this->commentDAO->getCommentsFromArticle($articleId);
         $allArticles = $this->articleDAO->getArticles();
         echo $this->twig->render('single.html.twig', [
             'article' => $article,
             'comments' => $comments,
-            'allArticles' =>$allArticles
+            'allArticles' =>$allArticles,
+            'errors' => $errors,
+            'post'=>$post
         ]);
+    }
+
+    private function addComment($errors, $post ,$articleId){
+        if(!$errors){
+            $this->commentDAO->addComment($post, $articleId);
+            $this->session->set('add_comment', 'Le commentaire est bien ajouté');
+            header('Location: ../public/index.php?route=article&articleId='. $articleId);
+        } else
+
+        $this->session->set('errors', 'Pensez a bien remplir les champs');
     }
 
     public function commentaire($commentId)
@@ -38,19 +54,6 @@ class FrontController extends Controller
         ]);
     }
 
-    public function addComment(Parameter $post, $articleId){
-        if($post->get('submit') ){
-            $errors=$this->validation->validate($post, 'Comment');
-            if(!$errors){
-                $this->commentDAO->addComment($post, $articleId);
-                $this->session->set('add_comment', 'Le commentaire est bien ajouté');
-                header('Location: ../public/index.php?route=article&articleId='. $articleId);
-            } elseif ($errors){
-                $this->session->set('errors', 'Pensez a bien remplir les champs');
-                header('Location: ../public/index.php?route=article&articleId='. $articleId);
-            }
-        }
-    }
 
     public function flagComment($commentId)
     {

@@ -21,7 +21,7 @@ class BackController extends Controller
         $this->checkLoggedIn();
         if(!($this->session->get('role') ==1)) {
             $this->session->set('not_admin', 'Vous n\'avez pas le droit d\'accéder à cette page');
-            header('Location: ../public/index.php?route=profile');
+            header('Location: ../public/index.php?route=connexion');
         } else {
             return true;
         }
@@ -155,7 +155,9 @@ class BackController extends Controller
     }
 
     public function profile(){
-        echo $this->twig->render('profile.html.twig');
+        if ($this->checkAdmin()){
+            echo $this->twig->render('profile.html.twig');
+        }
     }
 
     public function administration()

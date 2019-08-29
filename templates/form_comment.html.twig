@@ -1,18 +1,17 @@
-{{ dump (post) }}
 {% if post and post.get('id') %}
     {% set route = 'editComment' %}
 {% else %}
-    {% set route = 'addComment' %}
+    {% set route = 'article' %}
 {% endif %}
 
-{% if route == 'addComment' %}
+{% if route == 'article' %}
     {% set button = 'Ajouter' %}
 {% else %}
     {% set button='Mettre à jour' %}
 {% endif %}
 
 <div>
-    <form method="post" action="../public/index.php?route={{ route }}{% if route == 'editComment' %}&commentId={{ post.get('id') }}{% endif %}&articleId={% if article %}{{ article.id }}{% endif %}">
+    <form method="post" >
         <div class="form-group">
             <label for="pseudo">Pseudo</label>
             <input type="text" class="form-control" id="pseudo" name="pseudo" value="{% if post %}{{ post.get('pseudo') }}{% else %}{{ '' }}{% endif %}" aria-describedby="emailHelp">
@@ -23,7 +22,7 @@
             <textarea class="form-control" id="content" name="content" rows="3">{% if post %}{{ post.get('content') }}{% else %}{{ '' }}{% endif %}</textarea>
             {% if errors.content %} {{ errors.content }} {% else %} {{ '' }}{% endif %}
         </div>
-        <input type="submit" value='{{ button }}' class="btn btn-primary"   id="submit" name="submit">
+        <input type="submit" value='Ajouter' class="btn btn-primary"   id="submit" name="submit">
     </form>
 </div>
 

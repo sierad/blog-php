@@ -28,7 +28,7 @@ class Router
             if(isset($route))
             {
                 if($route === 'article'){
-                    $this->frontController->article($this->request->getGet()->get('articleId'));
+                    $this->frontController->article($this->request->getGet()->get('articleId'), $this->request->getPost());
                 }
                 elseif($route === 'commentaire'){
                     $this->frontController->commentaire($this->request->getGet()->get('commentId'));
@@ -50,9 +50,6 @@ class Router
                 }
                 elseif ($route === 'deleteUser'){
                     $this->backController->deleteUser($this->request->getGet()->get('userId'));
-                }
-                elseif($route === 'addComment'){
-                    $this->frontController->addComment($this->request->getPost(), $this->request->getGet()->get('articleId'));
                 }
                 elseif($route === 'flagComment'){
                     $this->frontController->flagComment($this->request->getGet()->get('commentId'));
