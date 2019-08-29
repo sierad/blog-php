@@ -9,16 +9,16 @@
                 <div class="row d-flex">
                     <div class="col-xl-8 py-5 px-md-5">
                         <div class="row pt-md-4">
-                            {% if session.show('badPass') is defined %}
-                                <span class="badge badge-danger">{{ session.show('badPass') }}</span>
+                            {% if session.show('bad_pass') is defined %}
+                                <span class="badge badge-danger">{{ session.show('bad_pass') }}</span>
                             {% endif %}
                             <div>
                                 <a href="../public/index.php"><i class="fas fa-backward"></i> Retour à l'accueil</a><br>
 
-                                <form method="post" action="../public/index.php?route=inscription">
+                                <form method="post" action="../public/index.php?route=register">
                                     <div class="form-group">
                                         <label for="pseudo">Pseudo</label>
-                                        <input type="text" class="form-control" id="pseudo" name="pseudo" aria-describedby="emailHelp" >
+                                        <input type="text" class="form-control" id="pseudo" name="pseudo"  >
                                         {% if errors.pseudo %} {{ errors.pseudo }} {% else %} {{ '' }}{% endif %}
                                     </div>
                                     <div class="form-group">

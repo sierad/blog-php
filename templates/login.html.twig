@@ -9,13 +9,16 @@
             <div class="container" id="colorlib-main">
                 <div class="row d-flex">
                     <div class="col-xl-8 py-5 px-md-5">
-                        {% if session.show('bad_connexion') is defined %}
-                            <span class="badge badge-danger">{{ session.show('bad_connexion') }}</span>
+                        {% if session.show('bad_login') is defined %}
+                            <span class="badge badge-danger">{{ session.show('bad_login') }}</span>
+                        {% endif %}
+                        {% if session.show('not_admin') is defined %}
+                            <span class="badge badge-danger">{{ session.show('not_admin') }}</span>
                         {% endif %}
                         <div class="row pt-md-4">
                             <div>
                                 <a href="../public/index.php"><i class="fas fa-backward"></i> Retour à l'accueil</a><br>
-                                <form method="post" action="../public/index.php?route=connexion">
+                                <form method="post" action="../public/index.php?route=login">
                                     <div class="form-group">
                                         <label for="pseudo">Pseudo</label>
                                         <input type="text" class="form-control" id="pseudo" name="pseudo" aria-describedby="emailHelp" placeholder="Enter email">
@@ -24,7 +27,7 @@
                                         <label for="exampleInputPassword1">Mot de passe</label>
                                         <input type="password" class="form-control" id="password" name="password" placeholder="Password">
                                     </div>
-                                    <input type="submit" value="Connexion" id="submit" name="submit" class="btn btn-primary" >
+                                    <input type="submit" value="Connection" id="submit" name="submit" class="btn btn-primary" >
                                 </form>
                             </div>
                             </div>

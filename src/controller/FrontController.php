@@ -62,42 +62,41 @@ class FrontController extends Controller
         header('Location:../public/index.php');
     }
 
-    public function inscription(Parameter $post){
+    public function register(Parameter $post){
+        $errors = $this->validation->validate($post,'User');
         if ($post->get('submit')){
-            $errors = $this->validation->validate($post,'User');
             if(!$errors){
-                $values = $this->userDAO->connexion($post);
+                $values = $this->userDAO->login($post);
                 if (!$values['resultat']['pseudo']){
-                    $this->userDAO->inscription($post);
-                    header('Location:../public/index.php?route=connexion');
+                    $this->userDAO->register($post);
+                    header('Location:../public/index.php?route=login');
                 }
                 else {
-                    $this->session->set('badPass', 'Le pseudo existe deja ! ');
+                    $this->session->set('bad_pass', 'Le pseudo existe deja ! ');
                 }
             }
-            echo $this->twig->render('inscription.html.twig',[
-                'post'=>$post,
-                'errors'=>$errors
-            ]);
         }
-        echo $this->twig->render('inscription.html.twig');
+        echo $this->twig->render('register.html.twig',[
+            'post'=>$post,
+            'errors'=>$errors
+        ]);
     }
 
-    public function connexion(Parameter $post){
+    public function login(Parameter $post){
         if ($post->get('submit')){
-            $values = $this->userDAO->connexion($post);
+            $values = $this->userDAO->login($post);
             if (!$values['passOk']){
-                $this->session->set('bad_connexion', 'Mauvais identifiant ou mot de passe');
+                $this->session->set('bad_login', 'Mauvais identifiant ou mot de passe');
             }
             else {
                 $this->session->set('id', $values['resultat']['id']);
                 $this->session->set('pseudo', $values['resultat']['pseudo']);
                 $this->session->set('role', $values['resultat']['role_id']);
-                $this->session->set('connexion', 'Vous etes bien connecté');
+                $this->session->set('login', 'Vous etes bien connecté');
                 header('Location:../public/index.php');
             }
         }
-        echo $this->twig->render('connexion.html.twig');
+        echo $this->twig->render('login.html.twig');
     }
 
 }

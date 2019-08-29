@@ -30,20 +30,21 @@ class UserDAO extends DAO
         return $users;
     }
 
-    public function inscription(Parameter $post)
+    public function register(Parameter $post)
     {
-        $password = password_hash($post->get('pseudo'), PASSWORD_DEFAULT);
+        $password = password_hash($post->get('pseudo'), PASSWORD_BCRYPT);
         $sql = 'INSERT INTO user (pseudo, mail, password, createdAt, role_id) VALUES (?, ?,?, NOW(), ?)';
         $this->createQuery($sql, [$post->get('pseudo'), $post->get('mail'), $password, 2]);
     }
 
-    public function connexion(Parameter $post)
+    public function login(Parameter $post)
     {
         $sql = 'SELECT user.id, user.role_id, user.pseudo, user.mail, user.password FROM user INNER JOIN role ON role.id=user.role_id WHERE pseudo = ?';
         $result = $this->createQuery($sql, [$post->get('pseudo')]);
         $resultat = $result->fetch();
         $passOk = password_verify($post->get('password'), $resultat['password']);
-
+        var_dump($post->get('password'));
+        var_dump($resultat['password']);
         return [
             'resultat'=>$resultat,
             'passOk'=>$passOk
@@ -66,11 +67,6 @@ class UserDAO extends DAO
         $this->createQuery($sql, [
             'password' => $password,
             'pseudo' => $post->get('pseudo')]);
-    }
-
-    public function updatePassword(Parameter $post, $pseudo){
-        $sql = 'UPDATE user SET password = ? WHERE pseudo = ?';
-        $this->createQuery($sql, [password_hash($post->get('password'), PASSWORD_DEFAULT), $pseudo]);
     }
 
 }

@@ -21,7 +21,7 @@ class BackController extends Controller
         $this->checkLoggedIn();
         if(!($this->session->get('role') ==1)) {
             $this->session->set('not_admin', 'Vous n\'avez pas le droit d\'accéder à cette page');
-            header('Location: ../public/index.php?route=connexion');
+            header('Location: ../public/index.php?route=login');
         } else {
             return true;
         }
@@ -77,29 +77,6 @@ class BackController extends Controller
     }
 
 
-    public function editComment(Parameter $post, $id)
-    {
-        if($this->checkAdmin()){
-            $comment=$this->commentDAO->getComment($id);
-            if($post->get('submit')){
-                var_dump('soumis');
-                $this->commentDAO->editComment($post, $id);
-                $this->session->set('edit_comment', 'Le commentaire a bien été modifié');
-                header('Location: ../public/index.php?route=article&articleId='.$comment->getArticleId());
-            }
-            $post->set('id',$comment->getId());
-            $post->set('pseudo',$comment->getPseudo());
-            $post->set('content',$comment->getContent());
-            $post->set('articleId',$comment->getArticleId());
-            echo $this->twig->render('edit_comment.html.twig', [
-                'post' => $post
-            ]);
-        }
-
-        //$this->session->set('comment_not_found', 'Pas trouvé');
-        //header('Location: ../public/index.php');
-    }
-
     public function deleteArticle($id)
     {
         if($this->checkAdmin()){
@@ -126,11 +103,11 @@ class BackController extends Controller
         }
     }
 
-    public function deconnexion($param = null){
+    public function logOut($param = null){
         $this->session->get('pseudo');
         $this->session->reset();
         if (!$param){
-            $this->session->set('deconnexion', 'Vous etes déconnecté !');
+            $this->session->set('logOut', 'Vous etes déconnecté !');
         } else {
             $this->session->set($param, 'Le compte a bien été supprimé');
         }

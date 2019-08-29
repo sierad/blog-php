@@ -16,7 +16,7 @@
             <td>Créé le : {{ user.createdAt }}</td>
             <td>{{ user.role }}</td>
             <td>
-                {% if user.role == 'admin' %}
+                {% if session.get('role') == 1 %}
                     <a href="../public/index.php?route=deleteUser&userId={{ user.id }}">Supprimer</a>
                 {% else %}
                     Suppression impossible

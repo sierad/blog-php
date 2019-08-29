@@ -7,14 +7,14 @@
         <ul>
             <li><a  href="../public/index.php">Accueil</a></li>
             {% if session.get('pseudo') %}
-                <li><a href="../public/index.php?route=deconnexion">Deconnexion</a></li>
+                <li><a href="../public/index.php?route=logOut">Deconnexion</a></li>
                 <li><a href="../public/index.php?route=profile">Profil</a></li>
                 {% if session.get('role') == 1 %}
                     <li><a href="../public/index.php?route=administration">Administration</a></li>
                 {% endif %}
             {% else %}
-                <li><a href="../public/index.php?route=connexion">Connexion</a></li>
-                <li><a href="../public/index.php?route=inscription">Inscription</a></li>
+                <li><a href="../public/index.php?route=login">Connexion</a></li>
+                <li><a href="../public/index.php?route=register">Inscription</a></li>
             {% endif %}
         </ul>
     </nav>

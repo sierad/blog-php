@@ -39,9 +39,6 @@ class Router
                 elseif ($route === 'editArticle'){
                     $this->backController->editArticle($this->request->getPost(), $this->request->getGet()->get('articleId'));
                 }
-                elseif ($route === 'editComment'){
-                    $this->backController->editComment($this->request->getPost(), $this->request->getGet()->get('commentId'));
-                }
                 elseif($route === 'deleteArticle'){
                     $this->backController->deleteArticle($this->request->getGet()->get('articleId'));
                 }
@@ -57,14 +54,14 @@ class Router
                 elseif($route === 'unflagComment'){
                     $this->backController->unflagComment($this->request->getGet()->get('commentId'));
                 }
-                elseif($route ==='inscription'){
-                    $this->frontController->inscription($this->request->getPost());
+                elseif($route ==='register'){
+                    $this->frontController->register($this->request->getPost());
                 }
-                elseif($route === 'connexion'){
-                    $this->frontController->connexion($this->request->getPost());
+                elseif($route === 'login'){
+                    $this->frontController->login($this->request->getPost());
                 }
-                elseif($route === 'deconnexion'){
-                    $this->backController->deconnexion();
+                elseif($route === 'logOut'){
+                    $this->backController->logOut();
                 }
                 elseif ($route === 'deleteAccount'){
                     $this->backController->deleteAccount($this->request->getSession());
