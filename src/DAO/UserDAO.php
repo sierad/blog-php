@@ -43,8 +43,6 @@ class UserDAO extends DAO
         $result = $this->createQuery($sql, [$post->get('pseudo')]);
         $resultat = $result->fetch();
         $passOk = password_verify($post->get('password'), $resultat['password']);
-        var_dump($post->get('password'));
-        var_dump($resultat['password']);
         return [
             'resultat'=>$resultat,
             'passOk'=>$passOk
