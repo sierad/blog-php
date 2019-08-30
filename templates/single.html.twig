@@ -21,7 +21,7 @@
                                 <a href="../public/index.php"><i class="fas fa-backward"></i> Retour à l'accueil </a>
                                 <div>
                                     <h2>{{ article.title }}</h2>
-                                    <p>{{ article.content }}</p>
+                                    <p>{{ article.content| raw }}</p>
                                     <p>{{ article.author }}</p>
                                     <p>Créé le : {{ article.createdAt|date("d.m.Y à H:i") }}</p>
                                 </div>

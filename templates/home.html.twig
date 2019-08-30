@@ -42,7 +42,7 @@
                                                     </span>
                                                 </p>
                                             </div>
-                                            <p class="mb-4">{{ article.content |slice(0,200)  }}</p>
+                                            <p class="mb-4">{{ article.content |slice(0,200)| raw }}</p>
                                             <p><a href="../public/index.php?route=article&articleId={{ article.id }}" class="btn-custom">Lire la suite >></a> </p>
                                         </div>
                                     </div>

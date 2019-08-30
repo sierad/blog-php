@@ -104,14 +104,18 @@ class BackController extends Controller
     }
 
     public function logOut($param = null){
-        $this->session->get('pseudo');
-        $this->session->reset();
-        if (!$param){
-            $this->session->set('logOut', 'Vous etes déconnecté !');
-        } else {
-            $this->session->set($param, 'Le compte a bien été supprimé');
+        if ($this->checkLoggedIn())
+        {
+            $this->session->get('pseudo');
+            $this->session->reset();
+            if (!$param){
+                $this->session->set('logOut', 'Vous etes déconnecté !');
+            } else {
+                $this->session->set($param, 'Le compte a bien été supprimé');
+            }
+            header('Location:../public/index.php');
         }
-        header('Location:../public/index.php');
+
 
     }
 
