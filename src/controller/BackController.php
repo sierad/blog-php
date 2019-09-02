@@ -123,7 +123,7 @@ class BackController extends Controller
         if($this->checkAdmin()){
             $ids=$this->session->get('pseudo');
             $this->userDAO->deleteAccount($ids);
-            $this->deconnexion('delete_account');
+            $this->logOut('delete_account');
         }
     }
 
@@ -163,11 +163,11 @@ class BackController extends Controller
         }
     }
 
-    public function deleteUser(){
+    public function deleteUser($userId){
         if($this->checkAdmin()){
-            $this->userDAO->deleteAccount($userId);
+            $this->userDAO->deleteUser($userId);
             $this->session->set('delete_user', 'L\'utilisateur a bien été supprimé');
-            header('Location:../public/index.php,route=administration;');
+            header('Location:../public/index.php?route=administration');
         }
     }
 

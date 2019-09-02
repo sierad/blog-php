@@ -11,8 +11,8 @@
         <th scope="col">Actions</th>
     </tr>
     </thead>
-    <tbody>
 
+    <tbody>
     {% for article in articles %}
         <tr>
             <td>{{ article.id }}</td>
@@ -21,8 +21,8 @@
             <td>{{ article.author }}</td>
             <td>Créé le : {{ article.createdAt }}</td>
             <td>
-                <a href="../public/index.php?route=editArticle&articleId={{ article.id }}" id="buttonDelete"><i class="far fa-edit"></i> Modifier</a><br>
-                <a href="../public/index.php?route=deleteArticle&articleId={{ article.id }}"><i class="far fa-trash-alt"></i> Supprimer</a>
+                <a href="../public/index.php?route=editArticle&articleId={{ article.id }}" ><i class="far fa-edit"></i> Modifier</a><br>
+                <a href="../public/index.php?route=deleteArticle&articleId={{ article.id }}" class="but" ><i class="far fa-trash-alt"></i> Supprimer</a>
             </td>
         </tr>
     {% endfor %}
