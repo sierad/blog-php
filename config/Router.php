@@ -63,9 +63,6 @@ class Router
                 elseif($route === 'logOut'){
                     $this->backController->logOut();
                 }
-                elseif ($route === 'deleteAccount'){
-                    $this->backController->deleteAccount($this->request->getSession());
-                }
                 elseif ($route === 'editPassword'){
                     $this->backController->editPassword($this->request->getPost(), $this->request->getSession('pseudo'));
                 }

@@ -28,7 +28,9 @@
                                     <td>{{ session.get("pseudo") }}</td>
                                     <td>
                                         <a href="../public/index.php?route=editPassword"><i class="far fa-edit"></i> Modifier mot de passe</a><br>
-                                        <a href="../public/index.php?route=deleteAccount"><i class="far fa-trash-alt"></i> Supprimer mon compte</a>
+                                        {% if session.get('role') == 1 %}
+                                            <a href="../public/index.php?route=deleteAccount"><i class="far fa-trash-alt"></i> Supprimer mon compte</a>
+                                        {% endif %}
                                     </td>
                                 </tr>
                                 </tbody>

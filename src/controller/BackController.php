@@ -119,14 +119,6 @@ class BackController extends Controller
 
     }
 
-    public function deleteAccount(){
-        if($this->checkAdmin()){
-            $ids=$this->session->get('pseudo');
-            $this->userDAO->deleteAccount($ids);
-            $this->logOut('delete_account');
-        }
-    }
-
     public function editPassword(Parameter $post, $id){
         if ($post->get('submit')){
             $this->userDAO->editPassword($post, $id);
@@ -136,7 +128,7 @@ class BackController extends Controller
     }
 
     public function profile(){
-        if ($this->checkAdmin()){
+        if ($this->checkLoggedIn()){
             echo $this->twig->render('profile.html.twig');
         }
     }

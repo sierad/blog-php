@@ -14,7 +14,6 @@ abstract class Controller
 {
     protected $articleDAO;
     protected $commentDAO;
-    protected $view;
     private $request;
     protected $get;
     protected $post;
@@ -29,7 +28,6 @@ abstract class Controller
     {
         $this->articleDAO = new ArticleDAO();
         $this->commentDAO = new CommentDAO();
-        $this->view = new View();
         $this->validation = new Validation();
         $this->pagination = new Pagination();
         $this->request = new Request();
